@@ -1,0 +1,20 @@
+<div ng-form="priceForm" ng-show="$ctrl.currentTribune.name && !$ctrl.currentSector.name">
+    <h4>Цена на трибуну: {{$ctrl.currentTribune.name}}</h4>
+    <div class="form-group col-md-3"  ng-class="{'has-error': priceForm.tribunePrice.$invalid && priceForm.tribunePrice.$dirty}">
+        <input class="form-control" type="number" name="tribunePrice" min="0" max="1500" ng-model="$ctrl.currentTribune.price" ng-change="$ctrl.changePrice()" />
+        <div class="help-block" ng-show="priceForm.tribunePrice.$error.number && priceForm.tribunePrice.$dirty">Price not number</div>
+    </div>
+</div>
+
+<div ng-form="priceForm" ng-show="$ctrl.currentSector.name">
+    <h4>Цена на сектор: № {{$ctrl.currentSector.name}}</h4>
+    <div class="form-group col-md-3"  ng-class="{'has-error': priceForm.sectorPrice.$invalid && priceForm.sectorPrice.$dirty}">
+        <input class="form-control" type="number" name="sectorPrice" min="0" max="1500" ng-model="$ctrl.currentSector.price" ng-change="$ctrl.changePrice()" />
+        <div class="help-block" ng-show="priceForm.sectorPrice.$error.number && priceForm.sectorPrice.$dirty">Price not number</div>
+    </div>
+</div>
+<div ng-show="$ctrl.applyShema" class="col-md-3">
+    <button class="btn btn-default" ng-click="$ctrl.saveSchema()">
+        Apply Shema
+    </button>
+</div>
