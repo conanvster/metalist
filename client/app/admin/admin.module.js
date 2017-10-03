@@ -17,15 +17,18 @@ import ColorSchemaEditorComponent from './price-schema/color-schema-editor/color
 import MenuPriceSchemaComponent from './price-schema/menu-price-schema/menu-price-schema.component';
 import StadiumWithTribunesComponent from './price-schema/stadium-with-tribunes/stadium-with-tribunes.component';
 import PriceEditorComponent from './price-schema/stadium-with-tribunes/price-editor/price-editor.component';
+import AdminToolComponent from './admin-tool/admin-tool.component';
 
 import MatchEditorService from './match-editor/match-editor.service';
 import PriceSchemaService from './price-schema/price-schema.service';
 import SeasonTicketService from './season-ticket/season-ticket.service';
+import AdminToolService from './admin-tool/admin-tool.service';
 
 let adminModule = angular.module('metalistTicketsApp.admin', [])
   .service('MatchEditorService', MatchEditorService)
   .service('SeasonTicketService', SeasonTicketService)
   .service('PriceSchemaService', PriceSchemaService)
+  .service('AdminToolService', AdminToolService)
   .controller('AdminController', AdminController)
   .component('adminUsers', AdminUsersComponent)
   .component('blockRowList', BlockRowListComponent)
@@ -44,6 +47,7 @@ let adminModule = angular.module('metalistTicketsApp.admin', [])
   .component('menuPriceSchema', MenuPriceSchemaComponent)
   .component('stadiumWithTribunes', StadiumWithTribunesComponent)
   .component('priceEditor', PriceEditorComponent)
+  .component('adminTool', AdminToolComponent)
   .name;
 
 export default adminModule;

@@ -17,6 +17,7 @@ export default function (app) {
   app.use('/api/seats', require('./api/seat'));
   app.use('/api/priceSchema', require('./api/priceSchema'));
   app.use('/api/seasonTicket', require('./api/seasonTicket'));
+  app.use('/api/adminTool', require('./api/adminTool'));
 
   app.use('/auth', require('./auth').default);
 
