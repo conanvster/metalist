@@ -1,0 +1,26 @@
+<label>Список абонементов</label>
+<form class="form">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Seat id</th>
+            <th>accessCode</th>
+            <th>Сектор</th>
+            <th>Ряд</th>
+            <th>Место</th>
+            <th>Действителен</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="ticket in $ctrl.seasonTickets ">
+            <td> {{ticket.slug}}</td>
+            <td> {{ticket.accessCode}}</td>
+            <td> {{ticket.sector}}</td>
+            <td> {{ticket.row}}</td>
+            <td> {{ticket.seat}}</td>
+            <td> {{ticket.reservedUntil | date}}</td>
+        </tr>
+        </tbody>
+    </table>
+</form>

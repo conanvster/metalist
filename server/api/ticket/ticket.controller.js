@@ -5,6 +5,7 @@ import User from '../user/user.model';
 import moment from 'moment-timezone';
 import * as barcode from 'bwip-js';
 import * as ticketService from '../ticket/ticket.service';
+import * as orderService from '../order/order.service';
 import * as matchService from '../match/match.service';
 import * as pdfGenerator from '../../pdfGenerator';
 import * as log4js from 'log4js';
@@ -22,10 +23,11 @@ export function getTicketPdfById(req, res) {
     })
     .catch(handleError(res));
 }
+
 export function getTicketByAccessCode(req, res) {
   return ticketService.getByAccessCode(req.params.accessCode)
     .then(handleEntityNotFound(res))
-     .then(respondWithResult(res))
+    .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
@@ -205,6 +207,65 @@ export function print(req, res, next) {
     .catch(handleError(res));
 }
 
+export function getStatistics(req, res) {
+  if (req.query.metod == 'day') {dayStatistics(req, res) }
+  if (req.query.metod == 'event') {eventStatistics(req, res) }
+}
+
+function dayStatistics(req, res) {
+  return orderService.getStatistics(req.user.id, req.query.date )
+    .then((order) => {
+    let tickets = [];
+      return order.reduce((sum, current) => {
+        return current.tickets.map(ticket => {
+          return tickets.push({
+            headline: ticket.match.headline,
+            amount: ticket.amount,
+            date: moment(ticket.reserveDate).format('MMM D, YYYY')
+          })
+        })
+      }, 0), tickets;
+  })
+    .then((tickets) => {
+      let amounts = tickets.map(ticket => {
+        return ticket.amount
+      });
+      return [...new Set(amounts)].map(amount => {
+        let price = {price: amount};
+        price.sum = tickets.filter(ticket => ticket.amount === amount).map(ticket => ticket.amount)
+          .reduce((sum, current) => {
+            return sum + current
+          }, 0);
+        price.count = tickets.filter(ticket => ticket.amount === amount).map(ticket => ticket.amount).length;
+        return price
+      })
+    })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+function eventStatistics(req, res) {
+  return orderService.getStatistics(req.user.id, req.query.date )
+    .then((order) => {
+      let tickets = [];
+      return order.reduce((sum, current) => {
+        return current.tickets.map(ticket => {
+          return tickets.push({
+            headline: ticket.match.headline,
+            tribune: ticket.seat.tribune,
+            sector: ticket.seat.sector,
+            row: ticket.seat.row,
+            seat: ticket.seat.seat,
+            amount: ticket.amount,
+            accessCode: ticket.accessCode
+          })
+        })
+      }, 0), tickets;
+    })
+    .then(handleEntityNotFound(res))
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
 
 //private functions
 function respondWithResult(res, statusCode) {

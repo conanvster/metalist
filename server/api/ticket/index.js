@@ -11,6 +11,8 @@ router.get('/my', auth.isAuthenticated(), controller.getMyTickets);
 
 router.get('/abonticket/:accessCode', auth.hasRole('cashier'), controller.getTicketByAccessCode);
 router.get('/useabonticket/:ticketId', auth.hasRole('cashier'), controller.useAbonementTicket);
+router.get('/statistics', auth.hasRole('cashier'), controller.getStatistics);
+
 router.get('/events-statistics', auth.hasRole('admin'), controller.getEventsStatistics);
 router.get('/days-statistics', auth.hasRole('admin'), controller.getDaysStatistics);
 

@@ -15,6 +15,14 @@ import * as log4js from 'log4js';
 
 const logger = log4js.getLogger('Order Service');
 
+export function getStatistics(userId, date) {
+  let day = moment(new Date(date)).tz('Europe/Kiev');
+  return Order.find({"user.id": userId, created : {
+    $gte: day.startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+    $lt: day.endOf('day').format('YYYY-MM-DD HH:mm:ss')
+  }}).populate('tickets');
+}
+
 export function findCartByPublicId(publicId) {
   return Order.findOne({publicId: publicId})
     .populate({

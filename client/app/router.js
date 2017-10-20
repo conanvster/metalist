@@ -1,7 +1,6 @@
 "use strict";
 
 import adminTemplate from './admin/admin.html';
-import cashboxTemplate from './cashbox/cashbox.html';
 import checkoutTemplate from './checkout/checkout.html';
 import homeTemplate from './home/home.html';
 import notFoundTemplate from './404/404.html';
@@ -42,14 +41,6 @@ export function routerConfig($cookiesProvider, $stateProvider, $urlRouterProvide
     controller: 'AdminController',
     controllerAs: 'admin',
     authenticate: 'admin'
-  });
-
-  $stateProvider.state('cashbox', {
-    url: '/cashbox',
-    templateUrl: cashboxTemplate,
-    controller: 'CashboxController',
-    controllerAs: 'cashbox',
-    authenticate: 'cashbox'
   });
 
   $stateProvider.state('main.home', {

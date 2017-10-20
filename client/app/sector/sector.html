@@ -42,18 +42,7 @@
       <div class="gradientSeats"></div>
     </div>
   </div>
-  <div id="printable" ng-show=false>
-    <div ng-repeat="ticket in vm.tickets">
-      <h3> </h3>
-      <b>{{vm.translate(ticket.seat.tribune)}} </b><br>
-      <b>{{ticket.seat.sector}} </b><br>
-      <b>{{ticket.seat.row}} </b><br>
-      <b>{{ticket.seat.seat}} </b><br>
-      <b>{{ticket.amount}} </b><br>
-      <b>{{ticket.accessCode}}</b><br>
-      <io-barcode code="ticket.accessCode" type="CODE128B" options="vm.options"></io-barcode>
-    </div>
-  </div>
+  <render-ticket tickets="vm.printTickets" on-change="vm.ticketRendering()" > </render-ticket>
   <div class="cardBlock container text-center">
     <div class="row row-centered">
       <div class="col-xs-9 col-centered col-fixed">

@@ -1,0 +1,27 @@
+<hr>
+<calendar on-date-changes="$ctrl.dateChanges($event)"></calendar>
+<table class="table table-condensed">
+    <thead>
+    <tr>
+        <th>Матч</th>
+        <th>Сектор</th>
+        <th>Ряд</th>
+        <th>Место</th>
+        <th>Прайс</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="stat in $ctrl.statistics | orderBy: '-headline'">
+        <td ng-bind="stat.headline">
+        </td>
+        <td ng-bind="stat.sector"></td>
+        <td ng-bind="stat.row"></td>
+        <td ng-bind="stat.seat"></td>
+        <td ng-bind="stat.amount"></td>
+        <td><a class="btn btn-primary btn-sm" ng-click="$ctrl.prints(stat)">Повтор печати</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<render-ticket tickets="$ctrl.ticket" on-change="$ctrl.ticketRendering()"></render-ticket>

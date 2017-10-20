@@ -1,0 +1,23 @@
+<hr>
+<calendar on-date-changes="$ctrl.dateChanges($event)"></calendar>
+<table class="table table-condensed">
+    <thead>
+    <tr>
+        <th>Цена</th>
+        <th>Количество</th>
+        <th>Сумма</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="stat in $ctrl.statistics | orderBy: '-price'">
+        <td ng-bind="stat.price"></td>
+        <td ng-bind="stat.count"></td>
+        <td ng-bind="stat.sum"></td>
+    </tr>
+    <tr ng-if="$ctrl.isStatistics()">
+        <td></td>
+        <td> Сумма</td>
+        <td> {{$ctrl.getAmount()}}</td>
+    </tr>
+    </tbody>
+</table>

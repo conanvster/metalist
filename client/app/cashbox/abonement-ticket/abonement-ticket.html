@@ -1,38 +1,39 @@
-<label>Список абонементов</label>
-<form class="form">
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Seat id</th>
-      <th>accessCode</th>
-      <th>Сектор</th>
-      <th>Ряд</th>
-      <th>Место</th>
-      <th>Действителен</th>
-    </tr>
-    </thead>
+<div class="col-md-4">
+  <label>Регистрировать билет</label>
+  <form class="form-inline">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Штрихкод билета" ng-model="$ctrl.accessCode">
+    </div>
+    <button type="submit" class="btn btn-default" ng-click="$ctrl.regTicket($ctrl.accessCode)">Найти</button>
+  </form>
+  <hr>
 
-    <tbody>
-    <tr ng-repeat="ticket in $ctrl.seasonTickets ">
-      <td>
-        {{ticket.slug}}
-      </td>
-      <td>
-        {{ticket.accessCode}}
-      </td>
-      <td>
-        {{ticket.sector}}
-      </td>
-      <td>
-        {{ticket.row}}
-      </td>
-      <td>
-        {{ticket.seat}}
-      </td>
-      <td>
-        {{ticket.reservedUntil | date}}
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</form>
+  <form ng-show="$ctrl.preSellTicket">
+    <div class="form-group">
+      <label>Место</label>
+      <p>Трибуна {{$ctrl.preSellTicket.seat.tribune}} Сектор {{$ctrl.preSellTicket.seat.sector}} Ряд
+        {{$ctrl.preSellTicket.seat.row}} Место {{$ctrl.preSellTicket.seat.seat}}</p>
+    </div>
+    <div class="form-group">
+      <label>Матч</label><
+      <p>{{$ctrl.preSellTicket.match.headline}}</p>
+    </div>
+    <div class="form-group">
+      <label>Цена</label>
+      <p>{{$ctrl.preSellTicket.amount}}</p>
+    </div>
+    <div class="form-group">
+      <label>Статус</label>
+      <p>{{$ctrl.preSellTicket.status}}</p>
+    </div>
+    <button ng-show="$ctrl.preSellTicket.status == 'paid'" class="btn btn-default"
+            ng-click="$ctrl.createSeasonTicket()">Регистрировать
+    </button>
+  </form>
+  {{$ctrl.errorMessageSeat}}
+</div>
+<div class="col-md-8">
+  <abonement-ticket-list season-tickets="$ctrl.seasonTickets"
+                         on-delete="$ctrl.deleteTicket($event)"></abonement-ticket-list>
+</div>
+

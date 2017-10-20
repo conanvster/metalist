@@ -1,56 +1,14 @@
-import bwipjs from 'bwip-js';
-
 export default class SectorController {
-    constructor(match, sector, TicketsService, $stateParams, CartService, PriceSchemaService, StadiumMetalist, StadiumDinamo, StadiumSolar, Auth) {
+    constructor(match, sector, TicketsService, $stateParams, CartService, PriceSchemaService, StadiumMetalist, StadiumDinamo, StadiumSolar, Auth, PrintTicketService) {
       'ngInject';
       this.cartService = CartService;
       this.priceSchemaService = PriceSchemaService;
       this.ticketsService = TicketsService;
+      this.printTicketService = PrintTicketService;
       this.match = match;
       this.hasRoleCashier = Auth.hasRole('cashier');
-
-      this.options = {scale: 2,               // 3x scaling factor
-        width: 1,
-        height: 60,              // Bar height, in millimeters
-        includetext: true,            // Show human-readable text
-        textxalign: 'center',        // Always good to set this
-        textsize: 13  };
-
+      this.printTickets = [];
       this.tickets = [];
-      //   {
-      //     "accessCode" : "8900426587024420",
-      //     "ticketNumber" : "b0778f3476fda44d166bb44349462c32be36fc61",
-      //     "amount" : 34,
-      //     "match" : {
-      //       "id" : "59df836c4716e602c922766d",
-      //       "headline" : "Металлист 1925 - one",
-      //     },
-      //     "seat" : {
-      //       "id" : "59df83884716e602c9231044",
-      //       "tribune" : "west",
-      //       "sector" : "1",
-      //       "row" : "10",
-      //       "seat" : 10
-      //     },
-      //   },
-      //   {
-      //     "accessCode" : "5835256378642802",
-      //     "ticketNumber" : "fb756d50400faeda5785d8d58ec25014196c7faf",
-      //     "timesUsed" : 0,
-      //     "amount" : 34,
-      //     "match" : {
-      //       "id" : "59df836c4716e602c922766d",
-      //       "headline" : "Металлист 1925 - one",
-      //     },
-      //     "seat" : {
-      //       "id" : "59df83884716e602c9231044",
-      //       "tribune" : "west",
-      //       "sector" : "1",
-      //       "row" : "10",
-      //       "seat" : 10
-      //     },
-      //   }
-      // ];
 
       if (match.priceSchema.priceSchema.stadiumName == 'dinamo') {
         this.sector = StadiumDinamo['tribune_' + sector.tribune]['sector_' + sector.sector];
@@ -190,7 +148,8 @@ export default class SectorController {
       console.log('order', order);
         this.cartService.loadCart()
           .then(() => {
-            this.print();
+            this.printTickets = [];
+            this.printTickets = angular.copy(this.tickets);
             this.updateReservedTickets();
           });
       })
@@ -203,40 +162,8 @@ export default class SectorController {
       });
   }
 
-  translate(direction) {
-    if (direction === 'north') { return 'Северная'}
-    if (direction === 'south') { return 'Южная'}
-    if (direction === 'east') { return 'Восточная'}
-    if (direction === 'west') { return 'Западная'}
-  }
-
-  print() {
-
-    var win = window.open('', '', 'left=0,top=0,width=552,height=477,toolbar=0,scrollbars=0,status =0');
-
-    var content = "<html>";
-    content += "<style type=\"text/css\"> @media print {\n" +
-      "    body {\n" +
-      "        font-size: 0.5cm;\n" +
-    "    }\n" +
-      "h3 { " +
-      "page-break-before: always;" +
-      "margin-top: 3.3cm;" +
-      " }" +
-      "b { " +
-      "margin-left: 2cm; " +
-      "font-size: 0.5cm;\n" +
-      "}" +
-      "@page {\n" +
-      "size: 5.5cm 8.5cm;/* width height */\n" +
-      "}}</style>";
-    content += "<body onload=\"window.print(); window.close();\">";
-    content += document.getElementById('printable').innerHTML;
-    content += " </body>";
-    content += "</html>";
-    win.document.write(content);
-    win.document.close();
-
+  ticketRendering(){
+    this.printTicketService.print();
   }
 
 }
