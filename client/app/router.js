@@ -20,6 +20,42 @@ export function routerConfig($cookiesProvider, $stateProvider, $urlRouterProvide
   $cookiesProvider.defaults.expires = new Date(n.getFullYear(), n.getMonth(), n.getDate(), n.getHours() + 6);
   $locationProvider.html5Mode(true);
 
+  $stateProvider
+    .state('cashbox', {
+      url: "/cashbox",
+      component: 'cashbox'
+    })
+    .state('cashbox.abonementTicket', {
+      url: "/abonementTicket",
+      component: 'abonementTicket'
+    })
+    .state('cashbox.daysStatistic', {
+      url: "/daysStatistic",
+      component: 'cashierDaysStatistic',
+      resolve: {
+        dayStatistics: (CashboxService) => {
+          'ngInject';
+          return CashboxService.getStatistics({
+            date: new Date(),
+            metod: 'day'
+          })
+        },
+      }
+    })
+    .state('cashbox.lastTickets', {
+      url: "/lastTickets",
+      component: 'cashierLastTickets',
+      resolve: {
+        lastTickets: (CashboxService) => {
+          'ngInject';
+          return CashboxService.getStatistics({
+            date: new Date(),
+            metod: 'event'
+          })
+        },
+      }
+    });
+
   $stateProvider.state('main', {
     abstract: true,
     url: '',
@@ -38,8 +74,6 @@ export function routerConfig($cookiesProvider, $stateProvider, $urlRouterProvide
   $stateProvider.state('admin', {
     url: '/admin',
     templateUrl: adminTemplate,
-    controller: 'AdminController',
-    controllerAs: 'admin',
     authenticate: 'admin'
   });
 
