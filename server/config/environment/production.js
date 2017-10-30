@@ -15,7 +15,7 @@ module.exports = {
 
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://' + (process.env.MONGO_1_PORT_27017_TCP_ADDR || 'localhost') + ':27017/metalisttickets'
+    uri: 'mongodb://' + (process.env.MONGO_1_PORT_27017_TCP_ADDR || 'mongo') + ':27017/metalisttickets'
   }
     // MongoDB connection options
 
