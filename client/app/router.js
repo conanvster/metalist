@@ -23,7 +23,23 @@ export function routerConfig($cookiesProvider, $stateProvider, $urlRouterProvide
   $stateProvider
     .state('cashbox', {
       url: "/cashbox",
-      component: 'cashbox'
+      component: 'cashbox',
+      resolve: {
+        admin: function (Auth, $q, $state) {
+          var d = $q.defer();
+          console.log('isAdmin' );
+          Auth.isLoggedIn(function(loggedIn) {
+            if (Auth.isAdmin()){
+              console.log('Auth.isAdmin()', Auth.isAdmin());
+              d.resolve();
+            } else {
+              console.log('reject Auth.isAdmin()', );
+              d.reject($state.go('404'));
+            }
+            return d.promise;
+          })
+        }
+      }
     })
     .state('cashbox.abonementTicket', {
       url: "/abonementTicket",
