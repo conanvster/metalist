@@ -120,12 +120,13 @@ export function processLiqpayRequest(request) {
         throw new Error('Order not found');
       }
       order.paymentDetails = params;
-      if (params.status === 'success' || params.status === 'sandbox') {
+      if (params.status === 'success' || params.status === 'sandbox' || params.status === 'wait_accept') {
         order.status = 'paid';
         logger.info('paid order: ' + order);
         return handleSuccessPayment(order);
       } else {
         order.status = 'failed';
+        logger.info('paid order failed: ' + order);
         return order.save();
       }
     })

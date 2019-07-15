@@ -58,7 +58,7 @@ export function liqpayRedirect(req, res) {
 
   return orderService.getLiqPayParams(req)
     .then(params => {
-      if (params.status === 'success' || params.status === 'sandbox') {
+      if (params.status === 'success' || params.status === 'sandbox' || params.status === 'wait_accept') {
         req.cookies.cart = '';
         return res.redirect('/tickets');
       } else {

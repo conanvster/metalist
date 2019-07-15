@@ -26,6 +26,16 @@
         </li>
       </ul>
       <ul>
+        <li>
+          <a href="assets/confidential.pdf">
+            {{'navbar.confidential' | translate | uppercase}}
+          </a>
+        </li>
+        <li>
+          <a href="assets/offerta.pdf">
+            {{'navbar.offerta' | translate | uppercase}}
+          </a>
+        </li>
         <li *ngIf="!isLoggedIn">
           <a routerLinkActive="active" routerLink="register">
             {{'navbar.registration' | translate | uppercase}}
