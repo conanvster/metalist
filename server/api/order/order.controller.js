@@ -55,7 +55,7 @@ export function liqpayRedirect(req, res) {
   if (config.env === 'development') {
     orderService.processLiqpayRequest(req)
   }
-
+  logger.info('liqpay Redirect ');
   return orderService.getLiqPayParams(req)
     .then(params => {
       if (params.status === 'success' || params.status === 'sandbox' || params.status === 'wait_accept') {
@@ -68,6 +68,7 @@ export function liqpayRedirect(req, res) {
 }
 
 export function liqpayCallback(req, res) {
+  logger.info('liqpay Callback ');
   return orderService.processLiqpayRequest(req)
     .then(respondWithResult(res))
     .catch(handleError(res));
